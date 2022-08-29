@@ -18,8 +18,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    // constants
-    private static final String TAG = "MainActivity";
     // Kinopoisk API token
     private static final String TOKEN = "RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J";
 
@@ -32,12 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
-        recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
-        movieAdapter = new MovieAdapter();
-        recyclerViewMovies.setAdapter(movieAdapter);
-        progressBar = findViewById(R.id.progressBarLoading);
 
         // subscribe to changes in list of movies
         viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
@@ -52,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getIsLoading().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isLoading) {
+                // if movies are loading, show progress bar
+                // else - disable it (set visibility to GONE)
                 if (isLoading) {
                     progressBar.setVisibility(View.VISIBLE);
                 } else {
@@ -62,5 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
         // load movies from API
         viewModel.loadMovies();
+    }
+
+    private void initViews() {
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
+        movieAdapter = new MovieAdapter();
+        recyclerViewMovies.setAdapter(movieAdapter);
+        progressBar = findViewById(R.id.progressBarLoading);
     }
 }

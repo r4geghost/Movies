@@ -43,12 +43,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 .load(movie.getPoster().getUrl())
                 .into(holder.imageViewPoster);
         // set rating
-        holder.textViewRating.setText(movie.getRating().getKp());
+        holder.textViewRating.setText(movie.getRating().getKinopoisk());
         // set background color to rating
         // 1. getting color ID
         int colorResId;
         // convert rating from String to Double
-        double rating = Double.parseDouble(movie.getRating().getKp());
+        double rating = Double.parseDouble(movie.getRating().getKinopoisk());
         if (rating < 5.0) {
             colorResId = android.R.color.holo_red_light;
         } else if (rating < 7.0) {

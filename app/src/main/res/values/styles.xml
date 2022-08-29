@@ -1,5 +1,6 @@
 <resources>
-    <!-- for rounded corners in ImageView (ShapeableImageView) -->
+    <!-- for rounded corners in ImageView
+    NOTE: should use ShapeableImageView -->
     <style name="imageViewRoundedCorners">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>

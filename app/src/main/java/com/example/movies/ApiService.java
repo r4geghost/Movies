@@ -9,6 +9,9 @@ public interface ApiService {
 
     // TODO: change it later
     @GET("movie?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&field=rating.kp&search=7-10&sortField=votes.kp&sortType=-1")
-    Single<MoviesResponse> loadMovies(@Query("page") int page);
+    Single<MoviesResponse> loadMovies(
+            @Query("page") int page
+    );
 }
-//movie?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&field=rating.kp&search=7-10&sortField=votes.kp&sortType=-1
+// url
+// movie?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&field=rating.kp&search=7-10&sortField=votes.kp&sortType=-1

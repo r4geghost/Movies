@@ -6,20 +6,20 @@ public class Rating {
 
     // movie rating on Kinopoisk
     @SerializedName("kp")
-    private String kp;
+    private String kinopoisk;
 
-    public Rating(String kp) {
-        this.kp = kp;
+    public Rating(String kinopoisk) {
+        this.kinopoisk = kinopoisk;
     }
 
-    public String getKp() {
-        return kp;
+    public String getKinopoisk() {
+        return kinopoisk;
     }
 
     @Override
     public String toString() {
         return "Rating{" +
-                "kp='" + kp + '\'' +
+                "kp='" + kinopoisk + '\'' +
                 '}';
     }
 }
