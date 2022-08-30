@@ -44,19 +44,17 @@
             tools:text="7.7" />
 
         <TextView
-            android:id="@+id/textViewName"
+            android:id="@+id/textViewTitle"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:paddingBottom="16dp"
-            android:singleLine="true"
             android:textAlignment="center"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewPoster"
-            tools:text="Интерстеллар253235235252532523523525235253235252525323525" />
+            tools:text="Movie Title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

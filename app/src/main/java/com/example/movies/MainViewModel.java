@@ -28,7 +28,7 @@ public class MainViewModel extends AndroidViewModel {
     // LiveData object that shows if movies is loading
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    // for test only
+    // current page
     private int page = 1;
 
     public LiveData<List<Movie>> getMovies() {
@@ -45,6 +45,7 @@ public class MainViewModel extends AndroidViewModel {
 
     // load list of movies in RxJava
     public void loadMovies() {
+        // show that loading has started
         isLoading.setValue(true);
         Disposable disposable = ApiFactory.apiService.loadMovies(page)
                 .subscribeOn(Schedulers.io())
@@ -52,11 +53,11 @@ public class MainViewModel extends AndroidViewModel {
                 .subscribe(new Consumer<MoviesResponse>() {
                     @Override
                     public void accept(MoviesResponse moviesResponse) throws Throwable {
-                        // get previously loaded movies in LiveData
+                        // get previously loaded movies stored in LiveData
                         List<Movie> loadedMovies = movies.getValue();
                         // if we had previously loaded movies in LiveData,
                         // then add new values to that LiveData,
-                        // else - set new value of moviesResponse.getMovies()
+                        // else - set new value to moviesResponse.getMovies()
                         if (loadedMovies != null) {
                             loadedMovies.addAll(moviesResponse.getMovies());
                             movies.setValue(loadedMovies);
@@ -67,14 +68,13 @@ public class MainViewModel extends AndroidViewModel {
                         // if we have successfully loaded movies,
                         // next time load new page
                         page++;
-                        // and change boolean LiveData because
-                        // loading is finished
+                        // show that loading has finished
                         isLoading.setValue(false);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Throwable {
-                        // logging
+                        // logging error
                         Log.d(TAG, throwable.toString());
                     }
                 });

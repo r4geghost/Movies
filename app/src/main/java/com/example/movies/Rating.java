@@ -2,7 +2,9 @@ package com.example.movies;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Rating {
+import java.io.Serializable;
+
+public class Rating implements Serializable {
 
     // movie rating on Kinopoisk
     @SerializedName("kp")
@@ -19,7 +21,7 @@ public class Rating {
     @Override
     public String toString() {
         return "Rating{" +
-                "kp='" + kinopoisk + '\'' +
+                "kinopoisk='" + kinopoisk + '\'' +
                 '}';
     }
 }

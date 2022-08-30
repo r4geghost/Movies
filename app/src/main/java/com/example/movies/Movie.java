@@ -2,14 +2,16 @@ package com.example.movies;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+import java.io.Serializable;
+
+public class Movie implements Serializable {
 
     // movie identifier
     @SerializedName("id")
     private long id;
-    // movie name
+    // movie title
     @SerializedName("name")
-    private String name;
+    private String title;
     // movie description
     @SerializedName("description")
     private String description;
@@ -23,9 +25,9 @@ public class Movie {
     @SerializedName("rating")
     private Rating rating;
 
-    public Movie(long id, String name, String description, int year, Poster poster, Rating rating) {
+    public Movie(long id, String title, String description, int year, Poster poster, Rating rating) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.description = description;
         this.year = year;
         this.poster = poster;
@@ -36,8 +38,8 @@ public class Movie {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getDescription() {
@@ -60,7 +62,7 @@ public class Movie {
     public String toString() {
         return "Movie{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", year=" + year +
                 ", poster=" + poster +

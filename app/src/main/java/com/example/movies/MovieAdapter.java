@@ -25,6 +25,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         this.onReachEndListener = onReachEndListener;
     }
 
+    private OnMovieClickListener onMovieClickListener;
+
+    public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
+        this.onMovieClickListener = onMovieClickListener;
+    }
+
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
         notifyDataSetChanged();
@@ -66,36 +72,50 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.textViewRating.setBackgroundColor(color);
         // convert rating from double to String and set it to TextView
         holder.textViewRating.setText(String.valueOf(rating));
-        // set movie name
-        holder.textViewName.setText(movie.getName());
+        // set movie title
+        holder.textViewTitle.setText(movie.getTitle());
 
+        // if we are near the end of the movie list,
+        // call onReachEndListener (realisation in Activity)
         if (position == movies.size() - 1 && onReachEndListener != null) {
             onReachEndListener.onReachEnd();
         }
+
+        // set onMovieClickListener (realisation in Activity)
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onMovieClickListener != null) {
+                    onMovieClickListener.OnMovieClick(movie);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-
         return movies.size();
     }
 
     interface OnReachEndListener {
-
         void onReachEnd();
+    }
+
+    interface OnMovieClickListener {
+        void OnMovieClick(Movie movie);
     }
 
     protected static class MovieViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView imageViewPoster;
         private final TextView textViewRating;
-        private final TextView textViewName;
+        private final TextView textViewTitle;
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewPoster = itemView.findViewById(R.id.imageViewPoster);
             textViewRating = itemView.findViewById(R.id.textViewRating);
-            textViewName = itemView.findViewById(R.id.textViewName);
+            textViewTitle = itemView.findViewById(R.id.textViewTitle);
         }
     }
 
