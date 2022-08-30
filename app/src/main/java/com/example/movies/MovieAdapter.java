@@ -19,6 +19,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private List<Movie> movies = new ArrayList<>();
 
+    private OnReachEndListener onReachEndListener;
+
+    public void setOnReachEndListener(OnReachEndListener onReachEndListener) {
+        this.onReachEndListener = onReachEndListener;
+    }
+
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
         notifyDataSetChanged();
@@ -42,32 +48,41 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Glide.with(holder.itemView)
                 .load(movie.getPoster().getUrl())
                 .into(holder.imageViewPoster);
-        // set rating
-        holder.textViewRating.setText(movie.getRating().getKinopoisk());
         // set background color to rating
         // 1. getting color ID
         int colorResId;
-        // convert rating from String to Double
-        double rating = Double.parseDouble(movie.getRating().getKinopoisk());
-        if (rating < 5.0) {
+        // get Kinopoisk rating
+        double rating = movie.getRating().getKinopoisk();
+        if (rating < 5) {
             colorResId = android.R.color.holo_red_light;
-        } else if (rating < 7.0) {
+        } else if (rating < 7) {
             colorResId = android.R.color.holo_orange_light;
-        }
-        else {
+        } else {
             colorResId = android.R.color.holo_green_light;
         }
         // 2. getting color by its ID
         int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);
-        // 3. setting background color to view
+        // 3. setting background color to TextView
         holder.textViewRating.setBackgroundColor(color);
+        // convert rating from double to String and set it to TextView
+        holder.textViewRating.setText(String.valueOf(rating));
         // set movie name
         holder.textViewName.setText(movie.getName());
+
+        if (position == movies.size() - 1 && onReachEndListener != null) {
+            onReachEndListener.onReachEnd();
+        }
     }
 
     @Override
     public int getItemCount() {
+
         return movies.size();
+    }
+
+    interface OnReachEndListener {
+
+        void onReachEnd();
     }
 
     protected static class MovieViewHolder extends RecyclerView.ViewHolder {

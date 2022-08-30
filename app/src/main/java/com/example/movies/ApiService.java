@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     // TODO: change it later
-    @GET("movie?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&field=rating.kp&search=7-10&sortField=votes.kp&sortType=-1")
+    @GET("movie?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&field=rating.kp&search=7-10&sortField=votes.kp&sortType=-1&limit=30")
     Single<MoviesResponse> loadMovies(
             @Query("page") int page
     );

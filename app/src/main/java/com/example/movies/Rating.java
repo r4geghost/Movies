@@ -6,13 +6,13 @@ public class Rating {
 
     // movie rating on Kinopoisk
     @SerializedName("kp")
-    private String kinopoisk;
+    private double kinopoisk;
 
-    public Rating(String kinopoisk) {
+    public Rating(double kinopoisk) {
         this.kinopoisk = kinopoisk;
     }
 
-    public String getKinopoisk() {
+    public double getKinopoisk() {
         return kinopoisk;
     }
 

@@ -52,16 +52,24 @@ public class MainViewModel extends AndroidViewModel {
                 .subscribe(new Consumer<MoviesResponse>() {
                     @Override
                     public void accept(MoviesResponse moviesResponse) throws Throwable {
-                        // set movies to LiveData object
-                        movies.setValue(moviesResponse.getMovies());
+                        // get previously loaded movies in LiveData
+                        List<Movie> loadedMovies = movies.getValue();
+                        // if we had previously loaded movies in LiveData,
+                        // then add new values to that LiveData,
+                        // else - set new value of moviesResponse.getMovies()
+                        if (loadedMovies != null) {
+                            loadedMovies.addAll(moviesResponse.getMovies());
+                            movies.setValue(loadedMovies);
+                        } else {
+                            // set movies to LiveData object
+                            movies.setValue(moviesResponse.getMovies());
+                        }
                         // if we have successfully loaded movies,
                         // next time load new page
                         page++;
                         // and change boolean LiveData because
                         // loading is finished
                         isLoading.setValue(false);
-                        // logging
-                        Log.d(TAG, movies.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override

@@ -26,10 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter movieAdapter;
     private ProgressBar progressBar;
 
+    // shows if onReachEnd() was called
+    private boolean onReachEndCall = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initViews();
 
         // subscribe to changes in list of movies
         viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
@@ -44,13 +49,26 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getIsLoading().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isLoading) {
-                // if movies are loading, show progress bar
+                // if movies are loading and onReachEnd()
+                // wasn't called, then show progress bar
                 // else - disable it (set visibility to GONE)
-                if (isLoading) {
+                if (isLoading && !onReachEndCall) {
                     progressBar.setVisibility(View.VISIBLE);
                 } else {
                     progressBar.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        // when user has reached the end of 
+        // the movies list, start loading next page
+        movieAdapter.setOnReachEndListener(new MovieAdapter.OnReachEndListener() {
+            @Override
+            public void onReachEnd() {
+                // update boolean
+                onReachEndCall = true;
+                // load new page on movies
+                viewModel.loadMovies();
             }
         });
 
