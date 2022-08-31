@@ -50,9 +50,9 @@ public class MainViewModel extends AndroidViewModel {
         Disposable disposable = ApiFactory.apiService.loadMovies(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<MoviesResponse>() {
+                .subscribe(new Consumer<MovieResponse>() {
                     @Override
-                    public void accept(MoviesResponse moviesResponse) throws Throwable {
+                    public void accept(MovieResponse moviesResponse) throws Throwable {
                         // get previously loaded movies stored in LiveData
                         List<Movie> loadedMovies = movies.getValue();
                         // if we had previously loaded movies in LiveData,

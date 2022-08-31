@@ -20,6 +20,10 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "MovieDetailActivity";
@@ -47,13 +51,22 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         viewModel.getPersons().observe(this, new Observer<List<Person>>() {
             @Override
-            public void onChanged(List<Person> people) {
-                personAdapter.setPeople(people);
-                Log.d(TAG, people.toString());
+            public void onChanged(List<Person> persons) {
+                personAdapter.setPeople(persons);
+                Log.d(TAG, persons.toString());
+            }
+        });
+        viewModel.getTrailers().observe(this, new Observer<List<Trailer>>() {
+            @Override
+            public void onChanged(List<Trailer> trailers) {
+                Log.d(TAG, trailers.toString());
             }
         });
 
-        viewModel.loadPersons(movie);
+        // load persons by movie id
+        viewModel.loadPersons(movie.getId());
+        // load trailers by movie id
+        viewModel.loadTrailers(movie.getId());
 
     }
 
