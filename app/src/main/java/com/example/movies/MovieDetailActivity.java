@@ -1,17 +1,28 @@
 package com.example.movies;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 public class MovieDetailActivity extends AppCompatActivity {
+
+    private static final String TAG = "MovieDetailActivity";
 
     private static final String EXTRA_MOVIE = "movie";
 
@@ -19,6 +30,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView textViewTitle;
     private TextView textViewYear;
     private TextView textViewDescription;
+
+    private MovieDetailViewModel viewModel;
+    private RecyclerView recyclerViewPersons;
+    private PersonAdapter personAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +44,17 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Movie movie = (Movie) getIntent().getSerializableExtra(EXTRA_MOVIE);
         setUpViews(movie);
+
+        viewModel.getPersons().observe(this, new Observer<List<Person>>() {
+            @Override
+            public void onChanged(List<Person> people) {
+                personAdapter.setPeople(people);
+                Log.d(TAG, people.toString());
+            }
+        });
+
+        viewModel.loadPersons(movie);
+
     }
 
     private void initViews() {
@@ -45,6 +71,18 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewTitle.setText(movie.getTitle());
         textViewYear.setText(String.valueOf(movie.getYear()));
         textViewDescription.setText(movie.getDescription());
+
+        viewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
+        recyclerViewPersons = findViewById(R.id.recyclerViewPersons);
+        personAdapter = new PersonAdapter();
+        recyclerViewPersons.setAdapter(personAdapter);
+        recyclerViewPersons.setLayoutManager(
+                new LinearLayoutManager(
+                        this,
+                        RecyclerView.HORIZONTAL,
+                        false
+                )
+        );
     }
 
     public static Intent newIntent(Context context, Movie movie) {

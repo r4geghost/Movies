@@ -12,6 +12,11 @@ public interface ApiService {
     Single<MoviesResponse> loadMovies(
             @Query("page") int page
     );
+
+    @GET("movie?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&field=id")
+    Single<PersonResponse> loadPersons(
+            @Query("search") long id
+    );
 }
 // url
 // movie?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&field=rating.kp&search=7-10&sortField=votes.kp&sortType=-1
