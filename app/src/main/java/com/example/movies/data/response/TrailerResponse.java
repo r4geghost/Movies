@@ -1,5 +1,6 @@
-package com.example.movies;
+package com.example.movies.data.response;
 
+import com.example.movies.data.models.TrailersList;
 import com.google.gson.annotations.SerializedName;
 
 public class TrailerResponse {

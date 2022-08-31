@@ -1,4 +1,8 @@
-package com.example.movies;
+package com.example.movies.api;
+
+import com.example.movies.data.response.MovieResponse;
+import com.example.movies.data.response.PersonResponse;
+import com.example.movies.data.response.TrailerResponse;
 
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;

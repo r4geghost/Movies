@@ -1,4 +1,4 @@
-package com.example.movies;
+package com.example.movies.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -9,6 +9,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.example.movies.R;
+import com.example.movies.adapters.MovieAdapter;
+import com.example.movies.data.models.Movie;
+import com.example.movies.viewmodels.MainViewModel;
 
 import java.util.List;
 

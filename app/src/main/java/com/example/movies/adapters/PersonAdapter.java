@@ -1,4 +1,4 @@
-package com.example.movies;
+package com.example.movies.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.util.StringUtil;
 
 import com.bumptech.glide.Glide;
+import com.example.movies.data.models.Person;
+import com.example.movies.R;
 
 import java.util.ArrayList;
 import java.util.List;
