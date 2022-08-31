@@ -27,7 +27,7 @@ public interface ApiService {
             @Query("search") long movieId
     );
 
-    @GET("review?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&sortField=date&sortType=-1&limit=8&field=movieId")
+    @GET("review?token=RWPCVHX-W5W4JJN-P6JZ0D7-BBCEF4J&sortField=date&sortType=-1&limit=10&field=movieId")
     Single<ReviewResponse> loadReviews(
             @Query("search") long movieId
     );
