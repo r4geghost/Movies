@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:textColor="@android:color/holo_orange_light"
+            android:textColor="@color/purple_200"
             android:textStyle="italic"
             app:layout_constraintTop_toBottomOf="@id/textViewTitle"
             tools:text="2001" />
@@ -58,20 +58,40 @@
             tools:itemCount="1"
             tools:listitem="@layout/person_item" />
 
+        <TextView
+            android:id="@+id/textViewReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp"
+            android:text="@string/reviews"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/recyclerViewTrailers" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTrailers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="335dp"
             android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerViewPersons"
-            tools:itemCount="2"
+            tools:itemCount="4"
             tools:listitem="@layout/trailer_item" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/textViewReviews"
+            tools:itemCount="2"
+            tools:listitem="@layout/review_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

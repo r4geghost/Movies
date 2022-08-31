@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -18,9 +19,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.movies.R;
 import com.example.movies.adapters.PersonAdapter;
+import com.example.movies.adapters.ReviewAdapter;
 import com.example.movies.adapters.TrailerAdapter;
 import com.example.movies.data.models.Movie;
 import com.example.movies.data.models.Person;
+import com.example.movies.data.models.Review;
 import com.example.movies.data.models.Trailer;
 import com.example.movies.viewmodels.MovieDetailViewModel;
 
@@ -38,10 +41,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView textViewDescription;
 
     private MovieDetailViewModel viewModel;
+
     private RecyclerView recyclerViewPersons;
     private PersonAdapter personAdapter;
     private RecyclerView recyclerViewTrailers;
     private TrailerAdapter trailerAdapter;
+    private RecyclerView recyclerViewReviews;
+    private ReviewAdapter reviewAdapter;
+
 
     private SnapHelper snapHelper;
 
@@ -59,7 +66,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Person> persons) {
                 personAdapter.setPeople(persons);
-                Log.d(TAG, persons.toString());
             }
         });
         viewModel.getTrailers().observe(this, new Observer<List<Trailer>>() {
@@ -68,13 +74,33 @@ public class MovieDetailActivity extends AppCompatActivity {
                 trailerAdapter.setTrailers(trailers);
             }
         });
+        viewModel.getReviews().observe(this, new Observer<List<Review>>() {
+            @Override
+            public void onChanged(List<Review> reviewList) {
+                reviewAdapter.setReviews(reviewList);
+                Log.d(TAG, reviewList.toString());
+            }
+        });
 
         // load persons by movie id
         viewModel.loadPersons(movie.getId());
         // load trailers by movie id
         viewModel.loadTrailers(movie.getId());
+        // load reviews by movie id
+        viewModel.loadReviews(movie.getId());
 
         snapHelper.attachToRecyclerView(recyclerViewPersons);
+
+        trailerAdapter.setOnTrailerClickListener(new TrailerAdapter.OnTrailerClickListener() {
+            @Override
+            public void onTrailerClick(Trailer trailer) {
+                // implicit intent - will open the browser
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                // parse url of trailer
+                intent.setData(Uri.parse(trailer.getUrl()));
+                startActivity(intent);
+            }
+        });
     }
 
     private void initViews() {
@@ -82,7 +108,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewTitle = findViewById(R.id.textViewTitle);
         textViewYear = findViewById(R.id.textViewYear);
         textViewDescription = findViewById(R.id.textViewDescription);
-
         snapHelper = new LinearSnapHelper();
     }
 
@@ -110,6 +135,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerViewTrailers = findViewById(R.id.recyclerViewTrailers);
         trailerAdapter = new TrailerAdapter();
         recyclerViewTrailers.setAdapter(trailerAdapter);
+
+        recyclerViewReviews = findViewById(R.id.recyclerViewReviews);
+        reviewAdapter = new ReviewAdapter();
+        recyclerViewReviews.setAdapter(reviewAdapter);
     }
 
     public static Intent newIntent(Context context, Movie movie) {

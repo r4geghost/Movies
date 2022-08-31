@@ -10,8 +10,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.movies.api.ApiFactory;
 import com.example.movies.data.models.Person;
+import com.example.movies.data.models.Review;
 import com.example.movies.data.models.Trailer;
 import com.example.movies.data.response.PersonResponse;
+import com.example.movies.data.response.ReviewResponse;
 import com.example.movies.data.response.TrailerResponse;
 
 import java.util.List;
@@ -37,6 +39,12 @@ public class MovieDetailViewModel extends AndroidViewModel {
 
     public LiveData<List<Trailer>> getTrailers() {
         return trailers;
+    }
+
+    private final MutableLiveData<List<Review>> reviews = new MutableLiveData<>();
+
+    public LiveData<List<Review>> getReviews() {
+        return reviews;
     }
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -82,6 +90,30 @@ public class MovieDetailViewModel extends AndroidViewModel {
                     @Override
                     public void accept(List<Trailer> trailersList) throws Throwable {
                         trailers.setValue(trailersList);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Throwable {
+                        Log.d(TAG, throwable.toString());
+                    }
+                });
+        compositeDisposable.add(disposable);
+    }
+
+    public void loadReviews(long movieId) {
+        Disposable disposable = ApiFactory.apiService.loadReviews(movieId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<ReviewResponse, List<Review>>() {
+                    @Override
+                    public List<Review> apply(ReviewResponse reviewResponse) throws Throwable {
+                        return reviewResponse.getReviews();
+                    }
+                })
+                .subscribe(new Consumer<List<Review>>() {
+                    @Override
+                    public void accept(List<Review> reviewsList) throws Throwable {
+                        reviews.setValue(reviewsList);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
