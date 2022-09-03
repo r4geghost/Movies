@@ -45,7 +45,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         Review review = reviews.get(position);
 
         holder.textViewUsername.setText(review.getAuthor());
-        holder.textViewReviewTitle.setText(review.getTitle());
+        // get review title
+        String reviewTitle = review.getTitle();
+        if (reviewTitle == null) {
+            // if there is no title of review,
+            // disable it (set visibility to GONE)
+            holder.textViewReviewTitle.setVisibility(View.GONE);
+        } else {
+            holder.textViewReviewTitle.setText(review.getTitle());
+        }
         holder.textViewReview.setText(review.getDescription());
         // set background color to review
         // 1. getting color ID
@@ -56,13 +64,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         }
         switch (reviewType) {
             case TYPE_POSITIVE:
-                colorResId = android.R.color.holo_green_light;
+                colorResId = android.R.color.holo_green_dark;
                 break;
             case TYPE_NEGATIVE:
-                colorResId = android.R.color.holo_red_light;
+                colorResId = android.R.color.holo_red_dark;
                 break;
             default:
-                colorResId = android.R.color.holo_orange_light;
+                colorResId = android.R.color.holo_orange_dark;
         }
         // 2. getting color by its ID
         int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);

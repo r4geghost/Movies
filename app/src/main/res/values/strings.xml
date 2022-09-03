@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Movies</string>
     <string name="reviews">Отзывы:</string>
+    <string name="item_favourite">Избранное</string>
+    <string name="favourite_movies_label">Избранные фильмы</string>
 </resources>
