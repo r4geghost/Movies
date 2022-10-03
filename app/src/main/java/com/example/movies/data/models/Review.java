@@ -2,7 +2,9 @@ package com.example.movies.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Review {
+import java.io.Serializable;
+
+public class Review implements Serializable {
 
     @SerializedName("author")
     private String author;

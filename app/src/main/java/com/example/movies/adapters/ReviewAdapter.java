@@ -29,6 +29,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         notifyDataSetChanged();
     }
 
+    private OnReviewClickListener onReviewClickListener;
+
+    public void setOnReviewClickListener(OnReviewClickListener onReviewClickListener) {
+        this.onReviewClickListener = onReviewClickListener;
+    }
+
     @NonNull
     @Override
     public ReviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -75,11 +81,27 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);
         // 3. setting background color to CardView
         holder.cardViewReview.setCardBackgroundColor(color);
+
+        // set on review click listener
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onReviewClickListener != null) {
+                    onReviewClickListener.onReviewClick(review);
+                }
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return reviews.size();
+    }
+
+    // helper interface
+    public interface OnReviewClickListener {
+        void onReviewClick(Review review);
     }
 
     protected static class ReviewHolder extends RecyclerView.ViewHolder {

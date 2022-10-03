@@ -89,7 +89,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             @Override
             public void onClick(View view) {
                 if (onMovieClickListener != null) {
-                    onMovieClickListener.OnMovieClick(movie);
+                    onMovieClickListener.onMovieClick(movie);
                 }
             }
         });
@@ -105,7 +105,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public interface OnMovieClickListener {
-        void OnMovieClick(Movie movie);
+        void onMovieClick(Movie movie);
     }
 
     protected static class MovieViewHolder extends RecyclerView.ViewHolder {

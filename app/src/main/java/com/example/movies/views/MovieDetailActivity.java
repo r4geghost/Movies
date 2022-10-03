@@ -59,93 +59,20 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
         initViews();
-
         // get movie from intent
         Movie movie = (Movie) getIntent().getSerializableExtra(EXTRA_MOVIE);
         setUpViews(movie);
-
-        viewModel.getPersons().observe(this, new Observer<List<Person>>() {
-            @Override
-            public void onChanged(List<Person> persons) {
-                personAdapter.setPeople(persons);
-            }
-        });
-        viewModel.getTrailers().observe(this, new Observer<List<Trailer>>() {
-            @Override
-            public void onChanged(List<Trailer> trailers) {
-                trailerAdapter.setTrailers(trailers);
-                // if there are no trailers, disable Trailers label
-                if (trailers.size() == 0) {
-                    textViewTrailerLabel.setVisibility(View.GONE);
-                }
-            }
-        });
-        viewModel.getReviews().observe(this, new Observer<List<Review>>() {
-            @Override
-            public void onChanged(List<Review> reviewList) {
-                reviewAdapter.setReviews(reviewList);
-            }
-        });
-
+        // init observers
+        observeViewModel(movie);
+        // init on click listeners
+        setUpClickListeners();
         // load persons by movie id
         viewModel.loadPersons(movie.getId());
         // load trailers by movie id
         viewModel.loadTrailers(movie.getId());
         // load reviews by movie id
         viewModel.loadReviews(movie.getId());
-
-        // show trailer on click
-        trailerAdapter.setOnTrailerClickListener(new TrailerAdapter.OnTrailerClickListener() {
-            @Override
-            public void onTrailerClick(Trailer trailer) {
-                // implicit intent - will open the browser
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                // parse url of trailer
-                intent.setData(Uri.parse(trailer.getUrl()));
-                startActivity(intent);
-            }
-        });
-
-        // creating drawables for favourite icon
-        // IS favourite
-        Drawable starOn = ContextCompat.getDrawable(
-                MovieDetailActivity.this,
-                android.R.drawable.btn_star_big_on
-        );
-        // IS NOT favourite
-        Drawable starOff = ContextCompat.getDrawable(
-                MovieDetailActivity.this,
-                android.R.drawable.btn_star_big_off
-        );
-        // subscribe to changes of favourite movies
-        viewModel.getFavouriteMovie(movie.getId()).observe(this, new Observer<Movie>() {
-            @Override
-            public void onChanged(Movie movieFromDb) {
-                if (movieFromDb == null) {
-                    // change icon
-                    imageViewFavourite.setImageDrawable(starOff);
-                    imageViewFavourite.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // add movie
-                            viewModel.insertMovie(movie);
-                        }
-                    });
-                } else {
-                    // change icon
-                    imageViewFavourite.setImageDrawable(starOn);
-                    imageViewFavourite.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // delete movie
-                            viewModel.deleteMovie(movie.getId());
-                        }
-                    });
-                }
-            }
-        });
     }
 
     private void initViews() {
@@ -195,6 +122,95 @@ public class MovieDetailActivity extends AppCompatActivity {
                         false
                 )
         );
+    }
+
+    private void setUpClickListeners() {
+        // show trailer on click
+        trailerAdapter.setOnTrailerClickListener(new TrailerAdapter.OnTrailerClickListener() {
+            @Override
+            public void onTrailerClick(Trailer trailer) {
+                // implicit intent - will open the browser
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                // parse url of trailer
+                intent.setData(Uri.parse(trailer.getUrl()));
+                startActivity(intent);
+            }
+        });
+
+        reviewAdapter.setOnReviewClickListener(new ReviewAdapter.OnReviewClickListener() {
+            @Override
+            public void onReviewClick(Review review) {
+                // launch detail review activity
+                Intent intent = ReviewDetailActivity.newIntent(
+                        MovieDetailActivity.this,
+                        review
+                );
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void observeViewModel(Movie movie) {
+        viewModel.getPersons().observe(this, new Observer<List<Person>>() {
+            @Override
+            public void onChanged(List<Person> persons) {
+                personAdapter.setPeople(persons);
+            }
+        });
+        viewModel.getTrailers().observe(this, new Observer<List<Trailer>>() {
+            @Override
+            public void onChanged(List<Trailer> trailers) {
+                trailerAdapter.setTrailers(trailers);
+                // if there are no trailers, disable Trailers label
+                if (trailers.size() == 0) {
+                    textViewTrailerLabel.setVisibility(View.GONE);
+                }
+            }
+        });
+        viewModel.getReviews().observe(this, new Observer<List<Review>>() {
+            @Override
+            public void onChanged(List<Review> reviewList) {
+                reviewAdapter.setReviews(reviewList);
+            }
+        });
+        // creating drawables for favourite icon
+        // IS favourite
+        Drawable starOn = ContextCompat.getDrawable(
+                MovieDetailActivity.this,
+                android.R.drawable.btn_star_big_on
+        );
+        // IS NOT favourite
+        Drawable starOff = ContextCompat.getDrawable(
+                MovieDetailActivity.this,
+                android.R.drawable.btn_star_big_off
+        );
+        // subscribe to changes of favourite movies
+        viewModel.getFavouriteMovie(movie.getId()).observe(this, new Observer<Movie>() {
+            @Override
+            public void onChanged(Movie movieFromDb) {
+                if (movieFromDb == null) {
+                    // change icon
+                    imageViewFavourite.setImageDrawable(starOff);
+                    imageViewFavourite.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // add movie
+                            viewModel.insertMovie(movie);
+                        }
+                    });
+                } else {
+                    // change icon
+                    imageViewFavourite.setImageDrawable(starOn);
+                    imageViewFavourite.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // delete movie
+                            viewModel.deleteMovie(movie.getId());
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public static Intent newIntent(Context context, Movie movie) {

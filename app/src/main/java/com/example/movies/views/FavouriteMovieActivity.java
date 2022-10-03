@@ -36,7 +36,7 @@ public class FavouriteMovieActivity extends AppCompatActivity {
         // when we click on movie, show detail info
         movieAdapter.setOnMovieClickListener(new MovieAdapter.OnMovieClickListener() {
             @Override
-            public void OnMovieClick(Movie movie) {
+            public void onMovieClick(Movie movie) {
                 Intent intent = MovieDetailActivity.newIntent(
                         FavouriteMovieActivity.this,
                         movie

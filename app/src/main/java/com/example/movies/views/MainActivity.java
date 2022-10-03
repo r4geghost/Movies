@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         movieAdapter.setOnMovieClickListener(new MovieAdapter.OnMovieClickListener() {
             @Override
-            public void OnMovieClick(Movie movie) {
+            public void onMovieClick(Movie movie) {
                 launchMovieDetailActivity(movie);
             }
         });
