@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView textViewYear;
     private TextView textViewDescription;
     private ImageView imageViewFavourite;
+    private TextView textViewTrailerLabel;
 
     private MovieDetailViewModel viewModel;
 
@@ -74,6 +76,10 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Trailer> trailers) {
                 trailerAdapter.setTrailers(trailers);
+                // if there are no trailers, disable Trailers label
+                if (trailers.size() == 0) {
+                    textViewTrailerLabel.setVisibility(View.GONE);
+                }
             }
         });
         viewModel.getReviews().observe(this, new Observer<List<Review>>() {
@@ -148,6 +154,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewYear = findViewById(R.id.textViewYear);
         textViewDescription = findViewById(R.id.textViewDescription);
         imageViewFavourite = findViewById(R.id.imageViewFavourite);
+        textViewTrailerLabel = findViewById(R.id.textViewTrailerLabel);
     }
 
     private void setUpViews(Movie movie) {
