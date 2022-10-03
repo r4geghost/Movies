@@ -49,8 +49,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         String reviewTitle = review.getTitle();
         if (reviewTitle == null) {
             // if there is no title of review,
-            // disable it (set visibility to GONE)
-            holder.textViewReviewTitle.setVisibility(View.GONE);
+            // stay default
         } else {
             holder.textViewReviewTitle.setText(review.getTitle());
         }

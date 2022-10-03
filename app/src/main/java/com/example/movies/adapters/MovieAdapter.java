@@ -16,6 +16,7 @@ import com.example.movies.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
@@ -73,7 +74,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         // 3. setting background color to TextView
         holder.textViewRating.setBackgroundColor(color);
         // convert rating from double to String and set it to TextView
-        holder.textViewRating.setText(String.valueOf(rating));
+        holder.textViewRating.setText(String.format(Locale.US, "%.1f", rating));
         // set movie title
         holder.textViewTitle.setText(movie.getTitle());
 

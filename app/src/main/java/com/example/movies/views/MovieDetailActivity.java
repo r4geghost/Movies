@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,8 +24,6 @@ import com.example.movies.R;
 import com.example.movies.adapters.PersonAdapter;
 import com.example.movies.adapters.ReviewAdapter;
 import com.example.movies.adapters.TrailerAdapter;
-import com.example.movies.data.database.MovieDao;
-import com.example.movies.data.database.MovieDatabase;
 import com.example.movies.data.models.Movie;
 import com.example.movies.data.models.Person;
 import com.example.movies.data.models.Review;
@@ -33,8 +31,6 @@ import com.example.movies.data.models.Trailer;
 import com.example.movies.viewmodels.MovieDetailViewModel;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -56,8 +52,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TrailerAdapter trailerAdapter;
     private RecyclerView recyclerViewReviews;
     private ReviewAdapter reviewAdapter;
-
-    private SnapHelper snapHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +148,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewYear = findViewById(R.id.textViewYear);
         textViewDescription = findViewById(R.id.textViewDescription);
         imageViewFavourite = findViewById(R.id.imageViewFavourite);
-        snapHelper = new LinearSnapHelper();
     }
 
     private void setUpViews(Movie movie) {
@@ -170,17 +163,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerViewPersons = findViewById(R.id.recyclerViewPersons);
         personAdapter = new PersonAdapter();
         recyclerViewPersons.setAdapter(personAdapter);
-        // setting horizontal LinearLayout
+        // setting horizontal Grid Layout
         // (also can be set in layout file)
         recyclerViewPersons.setLayoutManager(
-                new LinearLayoutManager(
+                new GridLayoutManager(
                         this,
+                        3,
                         RecyclerView.HORIZONTAL,
                         false
                 )
         );
-        // add snap helper
-        snapHelper.attachToRecyclerView(recyclerViewPersons);
 
         recyclerViewTrailers = findViewById(R.id.recyclerViewTrailers);
         trailerAdapter = new TrailerAdapter();
@@ -189,6 +181,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerViewReviews = findViewById(R.id.recyclerViewReviews);
         reviewAdapter = new ReviewAdapter();
         recyclerViewReviews.setAdapter(reviewAdapter);
+        recyclerViewReviews.setLayoutManager(
+                new LinearLayoutManager(
+                        this,
+                        RecyclerView.HORIZONTAL,
+                        false
+                )
+        );
     }
 
     public static Intent newIntent(Context context, Movie movie) {

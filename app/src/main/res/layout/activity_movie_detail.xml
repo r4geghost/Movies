@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/imageViewPoster"
@@ -32,7 +33,9 @@
             android:id="@+id/textViewYear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
             android:textColor="@android:color/holo_orange_dark"
             android:textStyle="italic"
             app:layout_constraintTop_toBottomOf="@id/textViewTitle"
@@ -46,6 +49,19 @@
             app:layout_constraintTop_toBottomOf="@id/textViewYear"
             tools:text="Description of movie" />
 
+        <TextView
+            android:id="@+id/textViewCastLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:text="@string/cast_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewPersons"
             android:layout_width="match_parent"
@@ -54,33 +70,59 @@
             android:paddingEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewDescription"
-            tools:itemCount="1"
+            app:layout_constraintTop_toBottomOf="@id/textViewCastLabel"
+            tools:itemCount="2"
             tools:listitem="@layout/person_item" />
 
+        <TextView
+            android:id="@+id/textViewTrailerLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:text="@string/trailers_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/recyclerViewPersons" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTrailers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="false"
             android:paddingBottom="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerViewPersons"
+            app:layout_constraintTop_toBottomOf="@id/textViewTrailerLabel"
             tools:itemCount="4"
             tools:listitem="@layout/trailer_item" />
+
+        <TextView
+            android:id="@+id/textViewReviewLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:text="@string/reviews_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/recyclerViewTrailers" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewReviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/recyclerViewTrailers"
-            tools:itemCount="2"
+            app:layout_constraintTop_toBottomOf="@id/textViewReviewLabel"
+            tools:itemCount="5"
             tools:listitem="@layout/review_item" />
 
         <ImageView
