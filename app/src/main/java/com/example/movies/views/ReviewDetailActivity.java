@@ -24,6 +24,8 @@ public class ReviewDetailActivity extends AppCompatActivity {
     private TextView textViewUsername;
     private TextView textViewReviewTitle;
     private TextView textViewReviewText;
+    private TextView textViewLikesCount;
+    private TextView textViewDislikesCount;
     private LinearLayout reviewLinearLayout;
 
     @Override
@@ -42,6 +44,8 @@ public class ReviewDetailActivity extends AppCompatActivity {
         textViewUsername = findViewById(R.id.textViewUsername);
         textViewReviewTitle = findViewById(R.id.textViewReviewTitle);
         textViewReviewText = findViewById(R.id.textViewReviewText);
+        textViewLikesCount = findViewById(R.id.textViewLikesCount);
+        textViewDislikesCount = findViewById(R.id.textViewDislikesCount);
     }
 
     private void setUpViews(Review review) {
@@ -51,6 +55,8 @@ public class ReviewDetailActivity extends AppCompatActivity {
             textViewReviewTitle.setText(reviewTitle);
         }
         textViewReviewText.setText(review.getDescription());
+        textViewLikesCount.setText(String.valueOf(review.getReviewLikes()));
+        textViewDislikesCount.setText(String.valueOf(review.getReviewDislikes()));
         // set background color
         int colorResId;
         String reviewType = review.getType();
