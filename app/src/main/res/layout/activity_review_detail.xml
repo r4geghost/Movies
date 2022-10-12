@@ -61,7 +61,6 @@
                 android:id="@+id/textViewDislikesCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:padding="4dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textColor="@color/black"
