@@ -6,12 +6,7 @@
 Приложение построено на архитектуре MVVM с использованием языка Java.
 
 # Скриншоты
-![image](https://user-images.githubusercontent.com/82594290/195611498-f7c01dab-15e1-46e5-9149-f54a9a0bc303.png)
-![image](https://user-images.githubusercontent.com/82594290/195611530-4e39a8f9-d601-446e-ac16-5c3090c2f991.png)
-![image](https://user-images.githubusercontent.com/82594290/195611556-55ad99b6-b653-49d9-a3b9-64b95d626ee4.png)
-![image](https://user-images.githubusercontent.com/82594290/195611690-481126c3-986d-4998-97af-545e6e3b1e30.png)
-![image](https://user-images.githubusercontent.com/82594290/195611716-a2b0255e-4ddf-430f-a5d6-f0f768bbbcf4.png)
-
+![qewqeq](https://user-images.githubusercontent.com/82594290/195613074-0fb65843-7e5c-4c0c-94e5-2d9feff769d3.png)
 
 # Функционал
 - просмотр списка популярных фильмов на Кинопоиске
