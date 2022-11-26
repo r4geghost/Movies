@@ -1,22 +1,27 @@
 package com.example.movies.views;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies.R;
 import com.example.movies.adapters.MovieAdapter;
 import com.example.movies.data.models.Movie;
 import com.example.movies.viewmodels.MainViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
 
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewMovies;
     private MovieAdapter movieAdapter;
     private ProgressBar progressBar;
+    private BottomNavigationView bottomNavigationView;
 
     // shows if onReachEnd() was called
     private boolean onReachEndCall = false;
@@ -94,6 +100,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
         movieAdapter = new MovieAdapter();
         recyclerViewMovies.setAdapter(movieAdapter);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.itemHome:
+                        removeFragment();
+                        recyclerViewMovies.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.itemFavourite:
+                        recyclerViewMovies.setVisibility(View.GONE);
+                        addFragment();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     // launch new activity and send movie object in intent
@@ -102,19 +125,24 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
+    private void addFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frameLayout);
+        if (currentFragment == null) {
+            transaction.add(R.id.frameLayout, new FavouritesFragment());
+            transaction.commit();
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // if we clicked on Favourites, launch FavouriteMovieActivity
-        if (item.getItemId() == R.id.itemFavourite) {
-            Intent intent = FavouriteMovieActivity.newIntent(MainActivity.this);
-            startActivity(intent);
+    private void removeFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frameLayout);
+        if (currentFragment != null) {
+            transaction.remove(currentFragment);
         }
-        return super.onOptionsItemSelected(item);
+        transaction.commit();
     }
+
 }
